@@ -12,13 +12,13 @@ docker run -dit --name isolation-container ubuntu bash
 docker exec -it isolation-container bash
 ps aux
 
-### 4. Run another container
+### 3. Run another container
 docker run -dit --name isolation-container-2 ubuntu bash
 
-### 5. Compare processes
+### 4. Compare processes
 docker exec -it isolation-container-2 ps aux
 
-### 6. Stop containers
+### 5. Stop containers
 docker stop isolation-container
 docker stop isolation-container-2
 
