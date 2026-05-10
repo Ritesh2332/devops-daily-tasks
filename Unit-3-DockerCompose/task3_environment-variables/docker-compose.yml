@@ -1,0 +1,5 @@
+services:
+  python-app:
+    build: ./app
+    env_file:
+      - .env
