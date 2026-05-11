@@ -1,0 +1,8 @@
+services:
+  database:
+    image: redis
+
+  backend:
+    build: ./backend
+    depends_on:
+      - database
