@@ -1,0 +1,15 @@
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "8080:80"
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
