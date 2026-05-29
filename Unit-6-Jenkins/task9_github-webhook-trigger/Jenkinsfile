@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    triggers {
+        githubPush()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Echo') {
+            steps {
+                echo "webhook fired for ${env.BUILD_NUMBER}"
+            }
+        }
+    }
+}

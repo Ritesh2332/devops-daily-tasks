@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE = 'jenkins-lab:local'
+    }
+
+    stages {
+        stage('Build image') {
+            steps {
+                dir('Unit-6-Jenkins/task7_docker-build-pipeline') {
+                    sh 'docker build -t $IMAGE .'
+                }
+            }
+        }
+        stage('Run image') {
+            steps {
+                sh 'docker run --rm $IMAGE'
+            }
+        }
+    }
+}

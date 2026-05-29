@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_DIR = 'Unit-6-Jenkins/task10_complete-ci-cd-pipeline'
+        IMAGE = "${DOCKERHUB_USER}/jenkins-cicd"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Test') {
+            steps {
+                dir("${APP_DIR}") {
+                    sh 'mvn -B test'
+                }
+            }
+        }
+        stage('Docker build') {
+            steps {
+                dir("${APP_DIR}") {
+                    sh 'docker build -t $IMAGE:$BUILD_NUMBER .'
+                }
+            }
+        }
+        stage('Push') {
+            when {
+                branch 'main'
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    sh 'docker push $IMAGE:$BUILD_NUMBER'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "deploy $IMAGE:$BUILD_NUMBER"
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'build failed'
+        }
+    }
+}

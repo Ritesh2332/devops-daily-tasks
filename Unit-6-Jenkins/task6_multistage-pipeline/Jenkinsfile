@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('Unit-6-Jenkins/task4_maven-build-job') {
+                    sh 'mvn -B test'
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                dir('Unit-6-Jenkins/task4_maven-build-job') {
+                    sh 'mvn -B package -DskipTests'
+                }
+            }
+        }
+    }
+}

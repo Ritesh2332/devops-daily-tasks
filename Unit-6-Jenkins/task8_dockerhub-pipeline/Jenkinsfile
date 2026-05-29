@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE = "${DOCKERHUB_USER}/jenkins-lab"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('Unit-6-Jenkins/task8_dockerhub-pipeline') {
+                    sh 'docker build -t $IMAGE:$BUILD_NUMBER -t $IMAGE:latest .'
+                }
+            }
+        }
+        stage('Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    sh 'docker push $IMAGE:$BUILD_NUMBER'
+                    sh 'docker push $IMAGE:latest'
+                }
+            }
+        }
+    }
+}
