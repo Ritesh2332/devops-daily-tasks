@@ -1,0 +1,13 @@
+name: hello
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  say-hi:
+    runs-on: ubuntu-latest
+    steps:
+      - run: uname -a
+      - run: echo "hello from actions"

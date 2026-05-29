@@ -1,0 +1,13 @@
+name: push-trigger
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  on-push:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "main got a push"
+      - run: echo $GITHUB_SHA

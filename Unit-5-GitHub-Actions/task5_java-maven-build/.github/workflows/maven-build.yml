@@ -1,0 +1,25 @@
+name: maven-build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'Unit-5-GitHub-Actions/task5_java-maven-build/**'
+      - '.github/workflows/maven-build.yml'
+
+defaults:
+  run:
+    working-directory: Unit-5-GitHub-Actions/task5_java-maven-build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - run: mvn -B test package
